@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BasicControler : MonoBehaviour
@@ -17,11 +18,19 @@ public class BasicControler : MonoBehaviour
     public float jumpPower;
     public float slidingSpeed; //슬라이딩으로 떨어지는 속도
 
+    private int playerHealth;
+    public int PlayerHealth
+    {
+        get { return playerHealth; }
+        set { playerHealth = value; }
+    }
+
     Vector3 wallPos; //충돌한 벽의 위치 저장
 
 
     void Start()
     {
+        playerHealth = 3;
         partical = GetComponent<SlidingPartical>();
     }
 
@@ -166,6 +175,20 @@ public class BasicControler : MonoBehaviour
         else if (wallPos.x > transform.position.x)
         {
             this.direction = false;
+        }
+    }
+
+    public void PlayerHit()
+    {
+        playerHealth -= 1;
+        PlayerDie();
+    }
+
+    private void PlayerDie()
+    {
+        if(playerHealth == 0)
+        {
+            SceneManager.LoadScene("GameOver");
         }
     }
 }
